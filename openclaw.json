@@ -1,6 +1,31 @@
 {
   "$schema": "https://docs.openclaw.ai/schema/openclaw.json",
 
+  "models": {
+    "mode": "merge",
+    "providers": {
+      "ollama": {
+        "baseUrl": "http://localhost:11434/v1",
+        "apiKey": "ollama-local",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "kimi-k2.5:cloud",
+            "name": "Kimi K2.5 Cloud",
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 262144,
+            "maxTokens": 16384
+          }
+        ]
+      }
+    }
+  },
+
   "agents": {
     "list": [
       {
@@ -10,12 +35,12 @@
         "workspace": "~/.openclaw/workspace-saf-dispatcher",
         "agentDir": "./dispatcher",
         "model": {
-          "primary": "ollama/qwen3.5:0.8b"
+          "primary": "ollama/kimi-k2.5:cloud"
         },
         "promptMode": "full",
         "subagents": {
           "allowAgents": ["tender-hunter", "market-researcher", "writer"],
-          "model": "ollama/qwen3.5:0.8b",
+          "model": "ollama/kimi-k2.5:cloud",
           "thinking": "low"
         }
       },
@@ -25,7 +50,7 @@
         "workspace": "~/.openclaw/workspace-tender-hunter",
         "agentDir": "./subagents/tender-hunter",
         "model": {
-          "primary": "ollama/qwen3.5:0.8b"
+          "primary": "ollama/kimi-k2.5:cloud"
         },
         "promptMode": "minimal",
         "tools": {
@@ -39,7 +64,7 @@
         "workspace": "~/.openclaw/workspace-market-researcher",
         "agentDir": "./subagents/market-researcher",
         "model": {
-          "primary": "ollama/qwen3.5:0.8b"
+          "primary": "ollama/kimi-k2.5:cloud"
         },
         "promptMode": "minimal",
         "tools": {
@@ -53,7 +78,7 @@
         "workspace": "~/.openclaw/workspace-writer",
         "agentDir": "./subagents/writer",
         "model": {
-          "primary": "ollama/qwen3.5:0.8b"
+          "primary": "ollama/kimi-k2.5:cloud"
         },
         "promptMode": "minimal",
         "tools": {
