@@ -10,12 +10,12 @@
         "workspace": "~/.openclaw/workspace-saf-dispatcher",
         "agentDir": "./dispatcher",
         "model": {
-          "primary": "ollama/kimi-k2.5:cloud"
+          "primary": "ollama/qwen3:8b"
         },
         "promptMode": "full",
         "subagents": {
           "allowAgents": ["tender-hunter", "market-researcher", "writer"],
-          "model": "ollama/kimi-k2.5:cloud",
+          "model": "ollama/qwen3:8b",
           "thinking": "low"
         }
       },
@@ -25,7 +25,7 @@
         "workspace": "~/.openclaw/workspace-tender-hunter",
         "agentDir": "./subagents/tender-hunter",
         "model": {
-          "primary": "ollama/kimi-k2.5:cloud"
+          "primary": "ollama/qwen3:8b"
         },
         "promptMode": "minimal",
         "tools": {
@@ -39,7 +39,7 @@
         "workspace": "~/.openclaw/workspace-market-researcher",
         "agentDir": "./subagents/market-researcher",
         "model": {
-          "primary": "ollama/kimi-k2.5:cloud"
+          "primary": "ollama/qwen3:8b"
         },
         "promptMode": "minimal",
         "tools": {
@@ -53,7 +53,7 @@
         "workspace": "~/.openclaw/workspace-writer",
         "agentDir": "./subagents/writer",
         "model": {
-          "primary": "ollama/kimi-k2.5:cloud"
+          "primary": "ollama/qwen3:8b"
         },
         "promptMode": "minimal",
         "tools": {
