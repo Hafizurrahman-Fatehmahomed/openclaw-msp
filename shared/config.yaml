@@ -1,0 +1,40 @@
+# config.yaml — Gedeelde configuratie voor alle agents
+# Pas dit aan voor jouw MSP. Herstart na aanpassing: docker-compose restart openclaw
+
+eigenaar:
+  naam: "Vul in"
+  bedrijf: "Vul in"
+
+telegram:
+  owner_chat_id: "${TELEGRAM_OWNER_ID}"
+
+# Zoekwoorden voor Tender Hunter
+tender_zoekwoorden:
+  primair:
+    - "MSP"
+    - "ICT Zorg"
+    - "MSP Zorg"
+  uitgebreid:
+    - "ICT-beheer zorginstelling"
+    - "managed services ziekenhuis"
+    - "IT-dienstverlening GGZ"
+    - "helpdesk zorginstelling"
+    - "ICT ondersteuning VVT"
+
+# RSS-feeds voor Market Researcher
+rss_feeds:
+  - naam: "Zorgvisie"
+    url: "https://www.zorgvisie.nl/feed/"
+  - naam: "Skipr"
+    url: "http://www.skipr.nl/rss.xml"
+  - naam: "Rijksoverheid"
+    url: "https://feeds.rijksoverheid.nl/nieuws.rss"
+  - naam: "VWS"
+    url: "https://feeds.rijksoverheid.nl/ministeries/ministerie-van-volksgezondheid-welzijn-en-sport/nieuws.rss"
+
+# Rapport instellingen
+rapport:
+  publicatie_tijd: "07:00"
+  max_tenders: 5
+  max_nieuwsartikelen: 5
+  taal: "nl"

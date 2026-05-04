@@ -1,40 +1,30 @@
-# TOOLS.md - Local Notes
+# TOOLS.md — Beschikbare mogelijkheden
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Sub-agent orkestratie (jouw primaire gereedschap)
 
-## What Goes Here
+- `sessions_spawn(agentId, message)` — start een sub-agent met een taak. Asynchroon. De agent kondigt zijn resultaat aan zodra hij klaar is.
+- `sessions_send(agentId, message)` — stuur een vervolgbericht naar een al lopende sub-agent.
+- `sessions_history(sessionId)` — lees wat een sub-agent tot nu toe heeft gedaan.
+- `sessions_status(sessionId)` — check of een sub-agent nog draait.
+- `sessions_kill(sessionId)` — stop een agent die te lang draait of vastloopt.
 
-Things like:
+## Bestand I/O (alleen jouw workspace en shared/)
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+- `read(pad)` — lees bestanden in `~/.openclaw/workspace-saf-dispatcher/` en `~/.openclaw/saf-shared/`.
+- `write(pad, inhoud)` — schrijf naar jouw workspace. Niet naar sub-agent workspaces.
+- `edit(pad, ...)` — bewerk bestaande bestanden in jouw workspace.
 
-## Examples
+## Wat je NIET kunt
 
-```markdown
-### Cameras
+- ❌ `exec` / shell — uitgeschakeld. Sub-agents doen dat indien nodig.
+- ❌ `browser` — uitgeschakeld. Tender Hunter en Market Researcher doen dat.
+- ❌ Directe RSS-feeds lezen — dat is Market Researchers taak.
+- ❌ TenderNed scrapen — dat is Tender Hunters taak.
+- ❌ Berichten sturen naar Telegram buiten de normale reply — Writer doet de publicatie.
+- ❌ Berichten sturen naar andere gebruikers dan de geconfigureerde eigenaar.
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+## Gedeelde bestanden die je leest (voor routeringsbeslissingen)
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+- `read('~/.openclaw/saf-shared/config.yaml')` — zoekwoorden, kanaalinstellingen, eigenaarsnaam
+- `read('~/.openclaw/saf-shared/results/tender-YYYY-MM-DD.json')` — vandaagse tender resultaten
+- `read('~/.openclaw/saf-shared/results/news-YYYY-MM-DD.json')` — vandaagse nieuwsresultaten

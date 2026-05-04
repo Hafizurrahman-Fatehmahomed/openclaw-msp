@@ -1,0 +1,114 @@
+{
+  "$schema": "https://docs.openclaw.ai/schema/openclaw.json",
+
+  "agents": {
+    "list": [
+      {
+        "id": "saf-dispatcher",
+        "default": true,
+        "name": "SAF Dispatcher",
+        "workspace": "~/.openclaw/workspace-saf-dispatcher",
+        "agentDir": "./dispatcher",
+        "model": {
+          "primary": "anthropic/claude-sonnet-4-6"
+        },
+        "promptMode": "full",
+        "subagents": {
+          "allowAgents": ["tender-hunter", "market-researcher", "writer"],
+          "model": "anthropic/claude-sonnet-4-6",
+          "thinking": "low"
+        }
+      },
+      {
+        "id": "tender-hunter",
+        "name": "Tender Hunter",
+        "workspace": "~/.openclaw/workspace-tender-hunter",
+        "agentDir": "./subagents/tender-hunter",
+        "model": {
+          "primary": "anthropic/claude-sonnet-4-6"
+        },
+        "promptMode": "minimal",
+        "tools": {
+          "allow": ["read", "web_search", "browser", "write"],
+          "deny": ["exec", "tg_send", "email_send", "email_draft"]
+        }
+      },
+      {
+        "id": "market-researcher",
+        "name": "Market Researcher",
+        "workspace": "~/.openclaw/workspace-market-researcher",
+        "agentDir": "./subagents/market-researcher",
+        "model": {
+          "primary": "anthropic/claude-sonnet-4-6"
+        },
+        "promptMode": "minimal",
+        "tools": {
+          "allow": ["read", "rss_fetch", "browser", "write"],
+          "deny": ["exec", "web_search", "tg_send", "email_send", "email_draft"]
+        }
+      },
+      {
+        "id": "writer",
+        "name": "Writer",
+        "workspace": "~/.openclaw/workspace-writer",
+        "agentDir": "./subagents/writer",
+        "model": {
+          "primary": "anthropic/claude-sonnet-4-6"
+        },
+        "promptMode": "minimal",
+        "tools": {
+          "allow": ["read", "write", "tg_send"],
+          "deny": ["exec", "browser", "web_search", "rss_fetch", "email_send"]
+        }
+      }
+    ],
+
+    "defaults": {
+      "subagents": {
+        "maxSpawnDepth": 2,
+        "maxChildrenPerAgent": 3,
+        "maxConcurrent": 3,
+        "runTimeoutSeconds": 600
+      }
+    }
+  },
+
+  "channels": {
+    "telegram": {
+      "accounts": {
+        "primary": {
+          "botToken": "${TELEGRAM_BOT_TOKEN}"
+        }
+      },
+      "dmPolicy": "allowlist",
+      "allowFrom": ["${TELEGRAM_OWNER_ID}"]
+    }
+  },
+
+  "bindings": [
+    {
+      "agentId": "saf-dispatcher",
+      "match": { "channel": "telegram", "accountId": "primary" }
+    }
+  ],
+
+  "tools": {
+    "profile": "full",
+    "sessions": { "visibility": "all" },
+    "agentToAgent": {
+      "enabled": true,
+      "allow": ["saf-dispatcher", "tender-hunter", "market-researcher", "writer"]
+    }
+  },
+
+  "security": {
+    "audit": {
+      "enabled": true,
+      "logPath": "~/.openclaw/saf-shared/audit/",
+      "schema": "iso27001"
+    },
+    "secrets": {
+      "vault": ".env"
+    }
+  }
+}
